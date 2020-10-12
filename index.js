@@ -56,6 +56,37 @@ client.on("message", function(message) {
 
         data.Results.push({ Coach: player.Name, Score: score, Opponent: args.join(' ') });
     }
+    else if (command === 'advance') {
+        // Format "Brian Home vs Oregon Ducks, Stew Away vs Georgia State Panthers"
+        const fullArgs = args.join();
+
+        const matchups = fullArgs.split(',');
+
+        data.CurrentWeek = [];
+
+        matchups.forEach(matchup => {
+            const matchupArgs = matchup.split(' ');
+
+            const player = data.Players.find(player => player.Name == matchupArgs[0]);
+
+            const homeAwayBye = args[1];
+
+            if (homeAwayBye.toLowerCase() === 'bye') {
+                data.CurrentWeek.push( { Coach: player.Name, Home: homeAwayBye, Opponent: 'Bye' } );
+            } else {
+                // Remove coach name and home vs away and 'vs'
+                matchupArgs.shift().shift().shift();
+
+                const opponent = matchupArgs.join(' ');
+
+                data.CurrentWeek.push( { Coach: player.name, Home: homeAwayBye, Opponent: opponent });
+            }
+        });
+
+        data.CurrentWeek.forEach(game => {
+            message.channel.send(``);
+        });
+    }
 
     save(data);
 });
