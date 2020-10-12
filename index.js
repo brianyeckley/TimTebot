@@ -24,7 +24,17 @@ client.on("message", function(message) {
 
     let data = load();
 
-    if (command === 'register') {
+    if (command === 'help') {
+        let help = `!register - \`Brian Colorado Buffaloes\``;
+        help += "\n!list";
+        help += `\n!result - \`29-14\` (your score first)`;
+        help += `\n!advance - \`Brian Home vs Oregon Ducks | Stew Away vs Georgia State Panthers | ETSweens bye\``;
+        help += "\n!current";
+        help += "\n\nThank *you* for using TimTebot!";
+
+        message.channel.send(help);
+    }
+    else if (command === 'register') {
         console.log(data);
         const name = args[0];
         
