@@ -87,8 +87,7 @@ client.on("message", function(message) {
         outputGames(data, message);
     }
     else if (command == 'shutdown') {
-        message.reply('BYE :middle_finger:');
-        process.exit();
+        message.reply('BYE :middle_finger:').then(() => process.exit());
     }
 
     save(data);
