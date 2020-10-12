@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const config = require("./config.json");
 const quotes = require("./quotes.json")
 const fs = require('fs');
+const { match } = require("assert");
 
 const prefix = "!";
 const client = new Discord.Client();
@@ -57,35 +58,42 @@ client.on("message", function(message) {
         data.Results.push({ Coach: player.Name, Score: score, Opponent: args.join(' ') });
     }
     else if (command === 'advance') {
-        // Format "Brian Home vs Oregon Ducks, Stew Away vs Georgia State Panthers"
-        const fullArgs = args.join();
+        // Format "Brian Home vs Oregon Ducks | Stew Away vs Georgia State Panthers | ETSweens bye"
+        const fullArgs = args.join(' ');
 
-        const matchups = fullArgs.split(',');
+        const matchups = fullArgs.split('|');
 
         data.CurrentWeek = [];
 
         matchups.forEach(matchup => {
-            const matchupArgs = matchup.split(' ');
+            let matchupArgs = matchup.split(' ');
 
-            const player = data.Players.find(player => player.Name == matchupArgs[0]);
+            matchupArgs = matchupArgs.filter(function (el) {
+                return el.length > 0;
+            });
 
-            const homeAwayBye = args[1];
+            const player = data.Players.find(player => player.Name === matchupArgs[0]);
+
+            const homeAwayBye = matchupArgs[1];
 
             if (homeAwayBye.toLowerCase() === 'bye') {
                 data.CurrentWeek.push( { Coach: player.Name, Home: homeAwayBye, Opponent: 'Bye' } );
             } else {
                 // Remove coach name and home vs away and 'vs'
-                matchupArgs.shift().shift().shift();
+                matchupArgs.shift();
+                matchupArgs.shift();
+                matchupArgs.shift();
 
                 const opponent = matchupArgs.join(' ');
 
-                data.CurrentWeek.push( { Coach: player.name, Home: homeAwayBye, Opponent: opponent });
+                data.CurrentWeek.push( { Coach: player.Name, Home: homeAwayBye, Opponent: opponent });
             }
         });
 
-        data.CurrentWeek.forEach(game => {
-            message.channel.send(``);
-        });
+        outputGames(data, message);
+    }
+    else if (command === 'current') {
+        outputGames(data, message);
     }
 
     save(data);
@@ -107,4 +115,15 @@ const load = () => {
     
     console.log(dataObject);
     return dataObject;
+}
+
+const outputGames = (data, message) => {
+    data.CurrentWeek.forEach(game => {
+        if (game.Home.toLowerCase() === 'bye') {
+            message.channel.send(`${game.Coach} has a bye week.`);
+        } else {
+            const atOrVs = game.Home.toLowerCase() === 'home' ? 'vs' : 'at';
+            message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent}`);
+        }
+    });
 }
