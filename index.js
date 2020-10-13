@@ -76,10 +76,10 @@ client.on("message", function(message) {
         currentGame.Result = scores[0] > scores[1] ? 'W' : 'L';
 
         if (currentGame.Result === 'W') {
-            message.reply('Congratulations!');
+            message.reply('congratulations!');
         }
         else {
-            message.reply('Oof, sorry.');
+            message.reply('oof, sorry.');
         }
     }
     else if (command === 'advance') {
@@ -123,7 +123,7 @@ const outputGames = (data, message) => {
             const atOrVs = game.Home.toLowerCase() === 'home' ? 'vs' : 'at';
 
             if (game.Result) {
-                message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'}`);
+                message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'} (${game.Score})`);
             }
             else {
                 message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent}`);
