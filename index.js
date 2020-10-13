@@ -67,16 +67,20 @@ client.on("message", function(message) {
         message.reply(reply);
     }
     else if (command === 'result') {
-        // Format "21-10 georgia state university"
-        if (!data.Results)
-            data.Results = [];
-
+        console.log(args);
         const player = data.Players.find(player => player.Username == message.author.username);
-        const score = args[0];
+        const scores = args[0].split('-');
 
-        args.shift();
+        const currentGame = data.CurrentWeek.find(game => game.Coach == player.Name);
+        currentGame.Score = args[0];
+        currentGame.Result = scores[0] > scores[1] ? 'W' : 'L';
 
-        data.Results.push({ Coach: player.Name, Score: score, Opponent: args.join(' ') });
+        if (currentGame.Result === 'W') {
+            message.reply('Congratulations!');
+        }
+        else {
+            message.reply('Oof, sorry.');
+        }
     }
     else if (command === 'advance') {
         advance(data, message);
@@ -117,7 +121,13 @@ const outputGames = (data, message) => {
             message.channel.send(`${game.Coach} has a bye week.`);
         } else {
             const atOrVs = game.Home.toLowerCase() === 'home' ? 'vs' : 'at';
-            message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent}`);
+
+            if (game.Result) {
+                message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'}`);
+            }
+            else {
+                message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent}`);
+            }
         }
     });
 }
