@@ -71,7 +71,7 @@ client.on("message", function(message) {
         const player = data.Players.find(player => player.Username == message.author.username);
         const scores = args[0].split('-');
 
-        const currentGame = data.CurrentWeek.find(game => game.Coach == player.Name);
+        const currentGame = data.CurrentWeek.Schedule.find(game => game.Coach == player.Name);
         currentGame.Score = args[0];
         currentGame.Result = scores[0] > scores[1] ? 'W' : 'L';
 
@@ -116,7 +116,8 @@ const load = () => {
 }
 
 const outputGames = (data, message) => {
-    data.CurrentWeek.forEach(game => {
+    message.channel.send(`WEEK ${data.CurrentWeek.Week}`);
+    data.CurrentWeek.Schedule.forEach(game => {
         if (game.Home.toLowerCase() === 'bye') {
             message.channel.send(`${game.Coach} has a bye week.`);
         } else {
@@ -177,7 +178,7 @@ const handleDM = (data, message) => {
 const teamAdvanced = (data, message) => {
     const player = data.Players[advanceState.coachIndex];
 
-    data.CurrentWeek.push( { Coach: player.Name, Home: advanceState.game.Home, Opponent: advanceState.game.Opponent });
+    data.CurrentWeek.Schedule.push( { Coach: player.Name, Home: advanceState.game.Home, Opponent: advanceState.game.Opponent });
 
     const nextIndex = advanceState.coachIndex += 1;
 
@@ -202,7 +203,7 @@ const teamAdvanced = (data, message) => {
 
 const advance = (data, message) => {
     console.log(`received advance request from ${message.author}`);
-    data.CurrentWeek = [];
+    data.CurrentWeek = {Week: 0, Schedule: []};
 
     advanceState = {
         completed: false,
