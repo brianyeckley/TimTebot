@@ -203,7 +203,8 @@ const teamAdvanced = (data, message) => {
 
 const advance = (data, message) => {
     console.log(`received advance request from ${message.author}`);
-    data.CurrentWeek = {Week: 0, Schedule: []};
+    const weekNumber = data.CurrentWeek.Week;
+    data.CurrentWeek = {Week: weekNumber+1, Schedule: []};
 
     advanceState = {
         completed: false,
