@@ -117,6 +117,7 @@ const load = () => {
 
 const outputGames = (data, message) => {
     message.channel.send(`**WEEK ${data.CurrentWeek.Week}**`);
+    unplayedGames = [];
     data.CurrentWeek.Schedule.forEach(game => {
         if (game.Home.toLowerCase() === 'bye') {
             message.channel.send(`${game.Coach} has a bye week.`);
@@ -127,10 +128,14 @@ const outputGames = (data, message) => {
                 message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'} (${game.Score})`);
             }
             else {
+                unplayedGames.push(game);
                 message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} :eyes:`);
             }
         }
     });
+    if (unplayedGames.length == 1){
+        message.channel.send(`Just waiting on you, **${unplayedGames[0].Coach.toUpperCase()}**...`);
+    }
 }
 
 const handleDM = (data, message) => {
