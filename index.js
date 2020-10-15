@@ -40,7 +40,7 @@ client.on("message", function(message) {
         help += "\n\`!list\`";
         help += "\n\`!result - 29-14\` (your score first)";
         help += "\n\`!advance\` and we'll have a chat";
-        help += "\n\`!current\`";
+        help += "\n\`!status\`";
         help += "\n\nThank *you* for using TimTebot!";
 
         message.channel.send(help);
@@ -87,7 +87,7 @@ client.on("message", function(message) {
 
         outputGames(data, message);
     }
-    else if (command === 'current') {
+    else if (command === 'status') {
         outputGames(data, message);
     }
     else if (command == 'shutdown') {
