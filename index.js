@@ -116,7 +116,7 @@ const load = () => {
 }
 
 const outputGames = (data, message) => {
-    message.channel.send(`WEEK ${data.CurrentWeek.Week}`);
+    message.channel.send(`**WEEK ${data.CurrentWeek.Week}**`);
     data.CurrentWeek.Schedule.forEach(game => {
         if (game.Home.toLowerCase() === 'bye') {
             message.channel.send(`${game.Coach} has a bye week.`);
@@ -127,7 +127,7 @@ const outputGames = (data, message) => {
                 message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'} (${game.Score})`);
             }
             else {
-                message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent}`);
+                message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} :eyes:`);
             }
         }
     });
