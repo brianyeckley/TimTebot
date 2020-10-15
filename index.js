@@ -35,12 +35,16 @@ client.on("message", function(message) {
     const args = commandBody.split(' ');
     const command = args.shift().toLowerCase();
 
+    console.log('command: ' + command);
     if (command === 'help') {
         let help = `\`!register Brian Colorado Buffaloes\``;
         help += "\n\`!list\`";
         help += "\n\`!result - 29-14\` (your score first)";
         help += "\n\`!advance\` and we'll have a chat";
+        help += "\n\`!advanceweek\` and we'll move to the next week on the schedule";
+        help += "\n\`!movebackweek\` and we'll move to the previous week on the schedule";
         help += "\n\`!status\`";
+        help += "\n\`!schedule\` weekNumber or playerName";
         help += "\n\nThank *you* for using TimTebot!";
 
         message.channel.send(help);
@@ -70,10 +74,14 @@ client.on("message", function(message) {
         console.log(args);
         const player = data.Players.find(player => player.Username == message.author.username);
         const scores = args[0].split('-');
-
-        const currentGame = data.CurrentWeek.Schedule.find(game => game.Coach == player.Name);
+        const currentGame = data.CurrentWeek.Games.find(game => game.Coach == player.Name);
         currentGame.Score = args[0];
         currentGame.Result = scores[0] > scores[1] ? 'W' : 'L';
+        //for full season storage
+        const currentWeek = data.Schedule.find(sched => sched.Week == data.CurrentWeek.Week);
+        const scheduleGame = currentWeek.Games.find(game => game.Coach == player.Name);
+        scheduleGame.Score = args[0];
+        scheduleGame.Result = scores[0] > scores[1] ? 'W' : 'L';
 
         if (currentGame.Result === 'W') {
             message.reply('congratulations!');
@@ -92,6 +100,22 @@ client.on("message", function(message) {
     }
     else if (command == 'shutdown') {
         message.reply('BYE :middle_finger:').then(() => process.exit());
+    }
+    else if (command == 'advanceweek') {
+        console.log('advancing to next week');
+        advanceToNextWeek(data, message);
+    }
+    else if (command == 'movebackweek') {
+        moveBackWeek(data, message);
+    }
+    else if (command == 'schedule') {
+        parsedArg = parseInt(args[0]);
+        if (parsedArg) {
+            outputSchedule(data, message, args[0]);
+        }
+        else{
+            outputScheduleForTeam(data, message, args[0]);
+        }
     }
 
     save(data);
@@ -118,7 +142,7 @@ const load = () => {
 const outputGames = (data, message) => {
     message.channel.send(`**WEEK ${data.CurrentWeek.Week}**`);
     unplayedGames = [];
-    data.CurrentWeek.Schedule.forEach(game => {
+    data.CurrentWeek.Games.forEach(game => {
         if (game.Home.toLowerCase() === 'bye') {
             message.channel.send(`${game.Coach} has a bye week.`);
         } else {
@@ -135,6 +159,9 @@ const outputGames = (data, message) => {
     });
     if (unplayedGames.length == 1){
         message.channel.send(`Just waiting on you, **${unplayedGames[0].Coach.toUpperCase()}**...`);
+    }
+    else if (unplayedGames.length == 0){
+        message.channel.send(`Everyone's played this week. Ready to advance!`);
     }
 }
 
@@ -183,7 +210,7 @@ const handleDM = (data, message) => {
 const teamAdvanced = (data, message) => {
     const player = data.Players[advanceState.coachIndex];
 
-    data.CurrentWeek.Schedule.push( { Coach: player.Name, Home: advanceState.game.Home, Opponent: advanceState.game.Opponent });
+    data.CurrentWeek.Games.push( { Coach: player.Name, Home: advanceState.game.Home, Opponent: advanceState.game.Opponent });
 
     const nextIndex = advanceState.coachIndex += 1;
 
@@ -209,7 +236,7 @@ const teamAdvanced = (data, message) => {
 const advance = (data, message) => {
     console.log(`received advance request from ${message.author}`);
     const weekNumber = data.CurrentWeek.Week;
-    data.CurrentWeek = {Week: weekNumber+1, Schedule: []};
+    data.CurrentWeek = {Week: weekNumber+1, Games: []};
 
     advanceState = {
         completed: false,
@@ -222,4 +249,87 @@ const advance = (data, message) => {
     const firstPlayer = data.Players[0];
 
     message.author.send(`First up, coach ${firstPlayer.Name}. Are they \`home\`, \`away\`, or on a \`bye\`?`);
+}
+
+const outputSchedule = (data, message, weekNum) => {
+    console.log(`received schedule request for week ${weekNum}`);
+    week = data.Schedule.find(sched => sched.Week == weekNum);
+    if (!week) {
+        message.channel.send('The week was not found');
+        return;
+    }
+    gamesToDisplay = week.Games;
+    message.channel.send(`**WEEK ${weekNum}**`);
+
+    gamesToDisplay.forEach(game => {
+        if (game.Home.toLowerCase() === 'bye') {
+            message.channel.send(`${game.Coach} has a bye week.`);
+        } else {
+            const atOrVs = game.Home.toLowerCase() === 'home' ? 'vs' : 'at';
+
+            if (game.Result) {
+                message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'} (${game.Score})`);
+            }
+            else {
+                message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} :eyes:`);
+            }
+        }
+    });
+}
+
+const outputScheduleForTeam = (data, message, player) => {
+    console.log(`received schedule request for player ${player}`);
+    gamesToDisplay = []
+    data.Schedule.forEach(week => {
+        const playerGame = week.Games.find(game => game.Coach.toLowerCase() == player.toLowerCase());
+        if (playerGame){
+            gamesToDisplay.push(playerGame);
+        }
+    })
+    gameWeek = data.Schedule[0].Week;
+    if (gamesToDisplay.length == 0) {
+        message.channel.send('No schedule was found for that player.');
+        return;
+    }
+    message.channel.send(`**${player}'s Schedule**`);
+
+    gamesToDisplay.forEach(game => {
+        if (game.Home.toLowerCase() === 'bye') {
+            message.channel.send(`WK ${gameWeek}: ${game.Coach} has a bye week.`);
+        } else {
+            const atOrVs = game.Home.toLowerCase() === 'home' ? 'vs' : 'at';
+
+            if (game.Result) {
+                message.channel.send(`WK ${gameWeek}: ${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'} (${game.Score})`);
+            }
+            else {
+                message.channel.send(`WK ${gameWeek}: ${game.Coach} ${atOrVs} ${game.Opponent} :eyes:`);
+            }
+        }
+        gameWeek++;
+    });
+}
+
+const advanceToNextWeek = (data, message) => {
+    const currentWeek = data.CurrentWeek.Week;
+    const nextWeek = data.Schedule.find(sched => sched.Week == (currentWeek+1));
+    if (!nextWeek) {
+        message.channel.send('Sorry, no further week found. Please use !advance instead');
+    }
+    else{
+        data.CurrentWeek = nextWeek;
+        outputGames(data, message);
+    }
+}
+
+const moveBackWeek = (data, message) => {
+    const currentWeek = data.CurrentWeek.Week;
+    const prevWeek = data.Schedule.find(sched => sched.Week == (currentWeek-1));
+    if (!prevWeek) {
+        message.channel.send('Sorry, no previous week found. Please use !advance instead');
+    }
+    else{
+        data.CurrentWeek = prevWeek;
+        outputGames(data, message);
+    }
 }
