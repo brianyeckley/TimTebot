@@ -173,6 +173,14 @@ const handleDM = (data, message) => {
         return;
     }
 
+    if (advanceState.needsWeek) {
+        advanceState.week = parseInt(message.content);
+        advanceState.needsWeek = false;
+        const firstPlayer = data.Players[0];
+        message.author.send(`First up, coach ${firstPlayer.Name}. Are they \`home\`, \`away\`, or on a \`bye\`?`);
+        return;
+    }
+
     if (advanceState.needsHomeAway) {
         const player = data.Players[advanceState.coachIndex];
 
@@ -243,12 +251,12 @@ const advance = (data, message) => {
         coachIndex: 0,
         needsHomeAway: true,
         needsOpponent: true,
+        needsWeek: true,
+        week: 0,
         game: {}
     }
 
-    const firstPlayer = data.Players[0];
-
-    message.author.send(`First up, coach ${firstPlayer.Name}. Are they \`home\`, \`away\`, or on a \`bye\`?`);
+    message.author.send(`Ok what is the week number you want to enter the schedule for?`);
 }
 
 const outputSchedule = (data, message, weekNum) => {
