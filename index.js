@@ -217,12 +217,13 @@ const handleDM = (data, message) => {
 
 const teamAdvanced = (data, message) => {
     const player = data.Players[advanceState.coachIndex];
-
     data.CurrentWeek.Games.push( { Coach: player.Name, Home: advanceState.game.Home, Opponent: advanceState.game.Opponent });
 
     const nextIndex = advanceState.coachIndex += 1;
 
     if (data.Players.length == nextIndex) {
+        data.CurrentWeek.Week = advanceState.week;
+        data.Schedule.push(data.CurrentWeek);
         advanceState.completed = true;
         message.reply('Week advanced!');
         return;
@@ -233,7 +234,9 @@ const teamAdvanced = (data, message) => {
         coachIndex: nextIndex,
         needsHomeAway: true,
         needsOpponent: true,
-        game: {}
+        needsWeek: false,
+        game: {},
+        week: advanceState.week
     }
 
     const nextPlayer = data.Players[advanceState.coachIndex];
@@ -288,6 +291,7 @@ const outputSchedule = (data, message, weekNum) => {
 const outputScheduleForTeam = (data, message, player) => {
     console.log(`received schedule request for player ${player}`);
     gamesToDisplay = []
+    data.Schedule.sort((a,b) => a.Week - b.Week);
     data.Schedule.forEach(week => {
         const playerGame = week.Games.find(game => game.Coach.toLowerCase() == player.toLowerCase());
         if (playerGame){

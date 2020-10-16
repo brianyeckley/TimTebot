@@ -1,3 +1,3 @@
-git add .
-git commit -am "Automatic commit"
+git add data.json
+git commit -am "Automatic commit of data store"
 git push
