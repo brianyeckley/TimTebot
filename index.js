@@ -93,7 +93,7 @@ client.on("message", function(message) {
     else if (command === 'advance') {
         advance(data, message);
 
-        outputGames(data, message);
+        //outputGames(data, message);
     }
     else if (command === 'status') {
         outputGames(data, message);
@@ -116,6 +116,9 @@ client.on("message", function(message) {
         else{
             outputScheduleForTeam(data, message, args[0]);
         }
+    }
+    else if (command == 'standings'){
+        outputStandings(data, message);
     }
 
     save(data);
@@ -290,14 +293,9 @@ const outputSchedule = (data, message, weekNum) => {
 
 const outputScheduleForTeam = (data, message, player) => {
     console.log(`received schedule request for player ${player}`);
-    gamesToDisplay = []
     data.Schedule.sort((a,b) => a.Week - b.Week);
-    data.Schedule.forEach(week => {
-        const playerGame = week.Games.find(game => game.Coach.toLowerCase() == player.toLowerCase());
-        if (playerGame){
-            gamesToDisplay.push(playerGame);
-        }
-    })
+    gamesToDisplay = getScheduleForPlayer(data, player);
+
     gameWeek = data.Schedule[0].Week;
     if (gamesToDisplay.length == 0) {
         message.channel.send('No schedule was found for that player.');
@@ -344,4 +342,38 @@ const moveBackWeek = (data, message) => {
         data.CurrentWeek = prevWeek;
         outputGames(data, message);
     }
+}
+
+const getScheduleForPlayer = (data, player) => {
+    gamesToReturn = []
+    data.Schedule.forEach(week => {
+        const playerGame = week.Games.find(game => game.Coach.toLowerCase() == player.toLowerCase());
+        if (playerGame){
+            gamesToReturn.push(playerGame);
+        }
+    })
+    return gamesToReturn;
+}
+
+const outputStandings = (data, message) => {
+    message.channel.send('**STANDINGS**');
+    let standings = [];
+    data.Players.forEach(player => {
+        const playerGames = getScheduleForPlayer(data, player.Name);
+        const wins = playerGames.filter(game => game.Result && game.Result == 'W');
+        const losses = playerGames.filter(game => game.Result && game.Result == 'L');
+        //const pointsFor;
+        //const pointsAgainst
+        standings.push( { 
+            Name: player.Name, 
+            Wins: wins ? wins.length : 0, 
+            Losses: losses ? losses.length : 0
+        });
+    })
+    standings.sort((a,b) => (b.Wins - a.Wins) || (a.Losses - b.Losses));
+    let count = 1;
+    standings.forEach(player => {
+        message.channel.send(`${count}. ${player.Name} ${player.Wins} - ${player.Losses}`);
+        count++;
+    })
 }
