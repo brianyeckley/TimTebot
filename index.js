@@ -273,22 +273,24 @@ const outputSchedule = (data, message, weekNum) => {
         return;
     }
     gamesToDisplay = week.Games;
-    message.channel.send(`**WEEK ${weekNum}**`);
+    let scheduleBuffer = `**WEEK ${weekNum}**`;
 
     gamesToDisplay.forEach(game => {
         if (game.Home.toLowerCase() === 'bye') {
-            message.channel.send(`${game.Coach} has a bye week.`);
+            scheduleBuffer += `\n${game.Coach} has a bye week.`;
         } else {
             const atOrVs = game.Home.toLowerCase() === 'home' ? 'vs' : 'at';
 
             if (game.Result) {
-                message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'} (${game.Score})`);
+                scheduleBuffer += `\n${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'} (${game.Score})`;
             }
             else {
-                message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} :eyes:`);
+                scheduleBuffer += `\n${game.Coach} ${atOrVs} ${game.Opponent} :eyes:`;
             }
         }
     });
+
+    message.channel.send(scheduleBuffer);
 }
 
 const outputScheduleForTeam = (data, message, player) => {
@@ -301,23 +303,25 @@ const outputScheduleForTeam = (data, message, player) => {
         message.channel.send('No schedule was found for that player.');
         return;
     }
-    message.channel.send(`**${player}'s Schedule**`);
+    let scheduleBuffer = `**${player}'s Schedule**`;
 
     gamesToDisplay.forEach(game => {
         if (game.Home.toLowerCase() === 'bye') {
-            message.channel.send(`WK ${gameWeek}: ${game.Coach} has a bye week.`);
+            scheduleBuffer += `\nWK ${gameWeek}: ${game.Coach} has a bye week.`;
         } else {
             const atOrVs = game.Home.toLowerCase() === 'home' ? 'vs' : 'at';
 
             if (game.Result) {
-                message.channel.send(`WK ${gameWeek}: ${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'} (${game.Score})`);
+                scheduleBuffer += `\nWK ${gameWeek}: ${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'} (${game.Score})`;
             }
             else {
-                message.channel.send(`WK ${gameWeek}: ${game.Coach} ${atOrVs} ${game.Opponent} :eyes:`);
+                scheduleBuffer += `\nWK ${gameWeek}: ${game.Coach} ${atOrVs} ${game.Opponent} :eyes:`;
             }
         }
         gameWeek++;
     });
+
+    message.channel.send(scheduleBuffer);
 }
 
 const advanceToNextWeek = (data, message) => {
