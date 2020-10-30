@@ -143,29 +143,30 @@ const load = () => {
 }
 
 const outputGames = (data, message) => {
-    message.channel.send(`**WEEK ${data.CurrentWeek.Week}**`);
+    let statusBuffer = `**WEEK ${data.CurrentWeek.Week}**`
     unplayedGames = [];
     data.CurrentWeek.Games.forEach(game => {
         if (game.Home.toLowerCase() === 'bye') {
-            message.channel.send(`${game.Coach} has a bye week.`);
+            statusBuffer += `\n${game.Coach} has a bye week.`;
         } else {
             const atOrVs = game.Home.toLowerCase() === 'home' ? 'vs' : 'at';
 
             if (game.Result) {
-                message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'} (${game.Score})`);
+                statusBuffer +=`\n${game.Coach} ${atOrVs} ${game.Opponent} ${game.Result === 'W' ? ':regional_indicator_w:' : ':regional_indicator_l:'} (${game.Score})`;
             }
             else {
                 unplayedGames.push(game);
-                message.channel.send(`${game.Coach} ${atOrVs} ${game.Opponent} :eyes:`);
+                statusBuffer += `\n${game.Coach} ${atOrVs} ${game.Opponent} :eyes:`;
             }
         }
     });
     if (unplayedGames.length == 1){
-        message.channel.send(`Just waiting on you, **${unplayedGames[0].Coach.toUpperCase()}**...`);
+        statusBuffer += `\nJust waiting on you, **${unplayedGames[0].Coach.toUpperCase()}**...`;
     }
     else if (unplayedGames.length == 0){
-        message.channel.send(`Everyone's played this week. Ready to advance!`);
+        statusBuffer += `\nEveryone's played this week. Ready to advance!`;
     }
+    message.channel.send(statusBuffer);
 }
 
 const handleDM = (data, message) => {
@@ -360,7 +361,6 @@ const getScheduleForPlayer = (data, player) => {
 }
 
 const outputStandings = (data, message) => {
-    message.channel.send('**STANDINGS**');
     let standings = [];
     data.Players.forEach(player => {
         const playerGames = getScheduleForPlayer(data, player.Name);
@@ -376,8 +376,10 @@ const outputStandings = (data, message) => {
     })
     standings.sort((a,b) => (b.Wins - a.Wins) || (a.Losses - b.Losses));
     let count = 1;
+    let standingsBuffer = `**STANDINGS**`;
     standings.forEach(player => {
-        message.channel.send(`${count}. ${player.Name} ${player.Wins} - ${player.Losses}`);
+        standingsBuffer += `\n${count}. ${player.Name} ${player.Wins} - ${player.Losses}`;
         count++;
     })
+    message.channel.send(standingsBuffer);
 }
