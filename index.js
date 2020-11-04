@@ -76,12 +76,12 @@ client.on("message", function(message) {
         const scores = args[0].split('-');
         const currentGame = data.CurrentWeek.Games.find(game => game.Coach == player.Name);
         currentGame.Score = args[0];
-        currentGame.Result = scores[0] > scores[1] ? 'W' : 'L';
+        currentGame.Result = parseInt(scores[0]) > parseInt(scores[1]) ? 'W' : 'L';
         //for full season storage
         const currentWeek = data.Schedule.find(sched => sched.Week == data.CurrentWeek.Week);
         const scheduleGame = currentWeek.Games.find(game => game.Coach == player.Name);
         scheduleGame.Score = args[0];
-        scheduleGame.Result = scores[0] > scores[1] ? 'W' : 'L';
+        scheduleGame.Result = parseInt(scores[0]) > parseInt(scores[1]) ? 'W' : 'L';
 
         if (currentGame.Result === 'W') {
             message.reply('congratulations!');
