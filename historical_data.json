@@ -877,7 +877,7 @@
         },
         {
             "Year": 2015,
-            "Data":{
+            "Data": {
                 "Players": [
                     {
                         "Name": "Brian",
@@ -1307,6 +1307,442 @@
                                 "Home": "away",
                                 "Opponent": "Florida Gators",
                                 "Score": "62-49",
+                                "Result": "W"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "Year": 2016,
+            "Data": {
+                "Players": [
+                    {
+                        "Name": "Brian",
+                        "Team": "Texas State Bobcats",
+                        "Username": "yecks"
+                    },
+                    {
+                        "Name": "Stew",
+                        "Team": "Kent State Golden Flashes",
+                        "Username": "Taylor Swiftblade"
+                    },
+                    {
+                        "Name": "ETSweens",
+                        "Team": "Toledo Rockets",
+                        "Username": "ETSweens"
+                    }
+                ],
+                "Schedule": [
+                    {
+                        "Week": 1,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "home",
+                                "Opponent": "FCS Fuckoffs",
+                                "Score": "41-7",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "home",
+                                "Opponent": "FCS Losers",
+                                "Score": "77-6",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "home",
+                                "Opponent": "FCS Idiots",
+                                "Score": "78-21",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 2,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "bye"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "bye"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "bye"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 3,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "bye"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "bye"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "bye"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 4,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "away",
+                                "Opponent": "Colorado Buffalos",
+                                "Score": "50-36",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "away",
+                                "Opponent": "Kansas State Wildcats",
+                                "Score": "57-7",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "away",
+                                "Opponent": "Notre Dame Fighting Irish",
+                                "Score": "52-28",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 5,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "away",
+                                "Opponent": "New Mexico State Aggies",
+                                "Score": "56-21",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "home",
+                                "Opponent": "West Virginia Mountaineers",
+                                "Score": "50-10",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "home",
+                                "Opponent": "Virginia Tech Hokies",
+                                "Score": "42-14",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 6,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "bye"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "home",
+                                "Opponent": "Ball State Cardinals",
+                                "Score": "66-31",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "away",
+                                "Opponent": "Alabam Crimson Tide",
+                                "Score": "61-23",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 7,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "away",
+                                "Opponent": "South Alabama Jaguars",
+                                "Score": "42-16",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "away",
+                                "Opponent": "Central Michigan Chippewas",
+                                "Score": "35-3",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "home",
+                                "Opponent": "Ohio State Buckeyes",
+                                "Score": "41-24",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 8,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "home",
+                                "Opponent": "Wyoming Cowboys",
+                                "Score": "76-14",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "home",
+                                "Opponent": "Buffalo Bulls",
+                                "Score": "84-21",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "away",
+                                "Opponent": "Illinois Fighting Illini",
+                                "Score": "52-21",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 9,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "away",
+                                "Opponent": "UL Monroe Warhawks",
+                                "Score": "42-14",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "away",
+                                "Opponent": "UMass Minutemen",
+                                "Score": "70-14",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "away",
+                                "Opponent": "Wisconsin Badgers",
+                                "Score": "70-31",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 10,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "home",
+                                "Opponent": "UL Lafayette Ragin' Cajuns",
+                                "Score": "48-14",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "home",
+                                "Opponent": "Akron Zips",
+                                "Score": "50-0",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "home",
+                                "Opponent": "Nebraska Cornhuskers",
+                                "Score": "62-14",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 11,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "home",
+                                "Opponent": "Old Dominion Monarchs",
+                                "Score": "48-21",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "away",
+                                "Opponent": "Bowling Green Falcons",
+                                "Score": "77-35",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "home",
+                                "Opponent": "Iowa Hawkeyes",
+                                "Score": "75-30",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 12,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "away",
+                                "Opponent": "Georgia State Panthers",
+                                "Score": "29-26",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "home",
+                                "Opponent": "Old Dominion Monarchs",
+                                "Score": "56-7",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "away",
+                                "Opponent": "Michigan Wolverines",
+                                "Score": "52-50",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 13,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "home",
+                                "Opponent": "Arkansas State Red Wolves",
+                                "Score": "52-9",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "home",
+                                "Opponent": "Ohio Bobcats",
+                                "Score": "56-35",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "away",
+                                "Opponent": "Michigan State Spartans",
+                                "Score": "64-42",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 14,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "away",
+                                "Opponent": "Western Kentucky Hilltoppers",
+                                "Score": "57-21",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "away",
+                                "Opponent": "Miami RedHawks",
+                                "Score": "77-24",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "home",
+                                "Opponent": "Minnesota Golden Gophers",
+                                "Score": "63-21",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 15,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "home",
+                                "Opponent": "Troy Trojans",
+                                "Score": "52-3",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "bye"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "bye"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 16,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "bye"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "home",
+                                "Opponent": "Army Golden Knights",
+                                "Score": "63-10",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "home",
+                                "Opponent": "Ohio State Fuckeyes",
+                                "Score": "56-42",
+                                "Result": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Week": 17,
+                        "Games": [
+                            {
+                                "Coach": "Brian",
+                                "Home": "home",
+                                "Opponent": "Alabama Crimson Tide",
+                                "Score": "10-35",
+                                "Result": "L"
+                            },
+                            {
+                                "Coach": "Stew",
+                                "Home": "away",
+                                "Opponent": "UCLA Bruins",
+                                "Score": "63-21",
+                                "Result": "W"
+                            },
+                            {
+                                "Coach": "ETSweens",
+                                "Home": "home",
+                                "Opponent": "Texas Donghorns",
+                                "Score": "64-40",
                                 "Result": "W"
                             }
                         ]
