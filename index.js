@@ -26,6 +26,7 @@ client.on("message", function(message) {
     if (!message.content.startsWith(prefix) && message.channel.type != 'dm') return;
 
     let data = load();
+    let historicalData = loadHistory();
 
     if (message.channel.type == 'dm') {
         handleDM(data, message);
@@ -42,6 +43,8 @@ client.on("message", function(message) {
         help += "\n\`!result - 29-14\` (your score first)";
         help += "\n\`!advance\` and we'll have a chat";
         help += "\n\`!advanceweek\` and we'll move to the next week on the schedule";
+        help += "\n\`!history\` to see all-time standings";
+        help += "\n\`!standings\` to see current season standings";
         help += "\n\`!movebackweek\` and we'll move to the previous week on the schedule";
         help += "\n\`!status\`";
         help += "\n\`!schedule\` weekNumber or playerName";
@@ -122,6 +125,9 @@ client.on("message", function(message) {
     else if (command == 'standings'){
         outputStandings(data, message);
     }
+    else if (command == 'history'){
+        outputHistory(historicalData, message);
+    }
 
     save(data);
 });
@@ -137,6 +143,15 @@ const save = (data) => {
 
 const load = () => {
     data = fs.readFileSync('data.json', 'utf-8');
+
+    const dataObject = JSON.parse(data.toString());
+    
+    console.log(dataObject);
+    return dataObject;
+}
+
+const loadHistory = () => {
+    data = fs.readFileSync('historical_data.json', 'utf-8');
 
     const dataObject = JSON.parse(data.toString());
     
@@ -383,5 +398,39 @@ const outputStandings = (data, message) => {
         standingsBuffer += `\n${count}. ${player.Name} ${player.Wins} - ${player.Losses}`;
         count++;
     })
+    message.channel.send(standingsBuffer);
+}
+
+const outputHistory = (historicalData, message) => {
+    let standings = [];
+    historicalData.Seasons[0].Data.Players.forEach(player => {
+        standings.push( { 
+            Name: player.Name, 
+            Wins: 0, 
+            Losses: 0
+        });
+    })
+    historicalData.Seasons.forEach(season => {
+        season.Data.Players.forEach(player => {
+            const playerGames = getScheduleForPlayer(season.Data, player.Name);
+            const wins = playerGames.filter(game => game.Result && game.Result == 'W');
+            const losses = playerGames.filter(game => game.Result && game.Result == 'L');
+
+            standings.map(entry => {
+                if (entry.Name == player.Name){
+                    entry.Wins += wins.length;
+                    entry.Losses += losses.length;
+                }
+            })
+        })
+    })
+    standings.sort((a,b) => (b.Wins - a.Wins) || (a.Losses - b.Losses));
+    let count = 1;
+    let standingsBuffer = `**HISTORICAL STANDINGS**\n${historicalData.Seasons.length} seasons`;
+    standings.forEach(player => {
+        standingsBuffer += `\n${count}. ${player.Name} ${player.Wins} - ${player.Losses}`;
+        count++;
+    })
+    console.log(standingsBuffer);
     message.channel.send(standingsBuffer);
 }
